@@ -4,8 +4,7 @@
  */
 package lab8p2_darielsevilladiegoandino;
 
-
-
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +21,7 @@ import javax.swing.JOptionPane;
 public class Principal extends javax.swing.JFrame {
 
     private ArrayList<Universo> universos = new ArrayList();
-    private ArrayList<Seres> seresVivos = new ArrayList();
+
     private Dba database;
 
     public Principal() {
@@ -30,9 +29,9 @@ public class Principal extends javax.swing.JFrame {
         llenarListas();
     }
 
-    public void llenarListas(){
+    public void llenarListas() {
         universos.clear();
-        seresVivos.clear();
+
         database = new Dba("./gintama.accdb");
         database.conectar();
         try {
@@ -40,51 +39,38 @@ public class Principal extends javax.swing.JFrame {
             ResultSet rs = database.query.getResultSet();
 
             while (rs.next()) {
-                universos.add(new Universo(rs.getString(1), rs.getInt(2)));
+
+                universos.add(new Universo(rs.getString(3), rs.getInt(2), rs.getInt(1)));
 
             }
-            
-        
-            
-            database.query.execute("SELECT * FROM seres");
+
             rs = database.query.getResultSet();
-         
-            
-            while(rs.next()){
-                Universo actual = new Universo();
-                for (Universo universo : universos) {
-                    if(rs.getString(5).equals(universo.getNombre())){
-                        actual = universo;
+
+            for (Universo universo : universos) {
+
+                database.query.execute("SELECT * FROM seres a, universos b WHERE (a.id = b.id and b.id =" + universo.getId() + ")");
+                rs = database.query.getResultSet();
+                while (rs.next()) {
+                    boolean bool = true;
+                    while (!rs.getString(5).equals("humano")) {
+                        bool = false;
                     }
-                }
-                boolean bool = true;
-                if(!rs.getString(6).equals("humano")){
-                    bool = false;
-                }
-                seresVivos.add(new Seres(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), actual, bool));
-            }
-            
-            for (Universo u : universos) {
-                for (Seres s : seresVivos) {
-                    if(s.getUniverso().equals(u)){
-                        u.getRegistrado().add(s);
-                    }
+                    universo.getRegistrado().add(new Seres(rs.getString(6), rs.getInt(2), rs.getInt(1), rs.getInt(2), universo, bool));
                 }
             }
-            
+
             database.desconectar();
-            DefaultComboBoxModel modeloUniversos = (DefaultComboBoxModel)cb_universos.getModel();
+            DefaultComboBoxModel modeloUniversos = (DefaultComboBoxModel) cb_universos.getModel();
             modeloUniversos.removeAllElements();
             for (Universo u : universos) {
                 modeloUniversos.addElement(u);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -242,21 +228,39 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_cargarUniversoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cargarUniversoMouseClicked
-            Universo u =(Universo) cb_universos.getSelectedItem();
-            DefaultListModel modelo = (DefaultListModel) jl_elements.getModel();
-            modelo.removeAllElements();
-            modelo.addElement(u);
-            modelo = (DefaultListModel)jl_seres.getModel();
-            ProgressBar barra = new ProgressBar(pb_cargar, u, modelo);
-            barra.start();
-        
+        Universo u = (Universo) cb_universos.getSelectedItem();
+        DefaultListModel modelo = (DefaultListModel) jl_elements.getModel();
+        modelo.removeAllElements();
+        modelo.addElement(u);
+        modelo = (DefaultListModel) jl_seres.getModel();
+        ProgressBar barra = new ProgressBar(pb_cargar, u, modelo);
+        barra.start();
+
     }//GEN-LAST:event_bt_cargarUniversoMouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       
+
         try {
+
+            SecureRandom random = new SecureRandom();
+            boolean bool = true;
+            int id = random.nextInt(10000);
+            while (bool) {
+                int cont = 0;
+                for (Universo universo : universos) {
+                    if (universo.getId() == id) {
+                        cont++;
+                    }
+                }
+                
+                if(cont == 0){
+                    bool = false;
+                }else{
+                    id = random.nextInt(10000);
+                }
+            }
             database.conectar();
-            database.query.execute("INSERT INTO universos VALUES ('"+ JOptionPane.showInputDialog("Ingrese Nombre de Universo")+ "', "+0+ ")");
+            database.query.execute("INSERT INTO universos VALUES ('"+ id + "','"+ 0 + "','" + JOptionPane.showInputDialog("Ingrese Nombre de Universo") + "')");
             database.commit();
             database.desconectar();
             llenarListas();

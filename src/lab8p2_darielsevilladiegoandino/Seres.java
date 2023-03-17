@@ -69,6 +69,11 @@ public class Seres {
         this.Humano = Humano;
     }
 
+    public boolean isHumano() {
+        return Humano;
+    }
+    
+    
     @Override
     public String toString() {
         String temp = "";

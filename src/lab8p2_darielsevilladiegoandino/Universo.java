@@ -7,17 +7,22 @@ public class Universo {
      private String Nombre;
     private int CantSeres;
     private ArrayList<Seres> Registrado = new ArrayList();
+    private int id;
 
     public Universo() {
     }
 
-    public Universo(String Nombre, int CantSeres) {
+    public Universo(String Nombre, int CantSeres, int id) {
         this.Nombre = Nombre;
         this.CantSeres = CantSeres;
+        this.id = id;
     }
 
-    public Universo(String Nombre) {
+   
+
+    public Universo(String Nombre, int id) {
         this.Nombre = Nombre;
+        this.id = id;
     }
 
     
@@ -29,6 +34,15 @@ public class Universo {
         this.Nombre = Nombre;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
     public int getCantSeres() {
         return CantSeres;
     }
@@ -47,8 +61,10 @@ public class Universo {
 
     @Override
     public String toString() {
-        return "Universo" + "Nombre->" + Nombre + "\nCantidad de seres ->" + CantSeres;
+        return Nombre;
     }
     
-    
+    public String toString2(){
+        return "Universo" + "Nombre->" + Nombre + "\nCantidad de seres ->" + CantSeres;
+    }
 }
