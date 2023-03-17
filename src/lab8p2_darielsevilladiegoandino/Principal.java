@@ -8,8 +8,12 @@ package lab8p2_darielsevilladiegoandino;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -91,7 +95,7 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
-        jPanel1 = new javax.swing.JPanel();
+        pn_principal = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bt_modificar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -100,15 +104,19 @@ public class Principal extends javax.swing.JFrame {
         bt_cargarUniverso = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jl_seres = new javax.swing.JList<>();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        pb_cargar = new javax.swing.JProgressBar();
+        menuPrincipal = new javax.swing.JMenuBar();
+        mi_seres = new javax.swing.JMenu();
+        mi_cSeres = new javax.swing.JMenuItem();
+        mi_universos = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        mi_dUniversos = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        pn_principal.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 255, 204));
@@ -143,21 +151,17 @@ public class Principal extends javax.swing.JFrame {
         jl_seres.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(jl_seres);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pn_principalLayout = new javax.swing.GroupLayout(pn_principal);
+        pn_principal.setLayout(pn_principalLayout);
+        pn_principalLayout.setHorizontalGroup(
+            pn_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_principalLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pn_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cb_universos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(pn_principalLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pn_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bt_cargarUniverso, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bt_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(77, 77, 77)
@@ -165,46 +169,73 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
+            .addGroup(pn_principalLayout.createSequentialGroup()
+                .addGroup(pn_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_principalLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel1))
+                    .addGroup(pn_principalLayout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(pb_cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pn_principalLayout.setVerticalGroup(
+            pn_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_principalLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pn_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(pn_principalLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(pn_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_principalLayout.createSequentialGroup()
                                 .addGap(38, 38, 38)
                                 .addComponent(bt_cargarUniverso, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(bt_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(58, 58, 58)
                                 .addComponent(cb_universos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(pn_principalLayout.createSequentialGroup()
                                 .addGap(13, 13, 13)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(pb_cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39))
         );
 
-        jMenu2.setText("File");
-        jMenuBar1.add(jMenu2);
+        mi_seres.setText("seres");
 
-        jMenu3.setText("Edit");
-        jMenuBar1.add(jMenu3);
+        mi_cSeres.setText("create");
+        mi_seres.add(mi_cSeres);
 
-        setJMenuBar(jMenuBar1);
+        menuPrincipal.add(mi_seres);
+
+        mi_universos.setText("Universos");
+
+        jMenuItem1.setText("Crear");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        mi_universos.add(jMenuItem1);
+
+        mi_dUniversos.setText("Delete");
+        mi_universos.add(mi_dUniversos);
+
+        menuPrincipal.add(mi_universos);
+
+        setJMenuBar(menuPrincipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pn_principal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pn_principal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -216,10 +247,23 @@ public class Principal extends javax.swing.JFrame {
             modelo.removeAllElements();
             modelo.addElement(u);
             modelo = (DefaultListModel)jl_seres.getModel();
-            for (Seres s : u.getRegistrado()) {
-            modelo.addElement(s);
-        }
+            ProgressBar barra = new ProgressBar(pb_cargar, u, modelo);
+            barra.start();
+        
     }//GEN-LAST:event_bt_cargarUniversoMouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       
+        try {
+            database.conectar();
+            database.query.execute("INSERT INTO universos VALUES ('"+ JOptionPane.showInputDialog("Ingrese Nombre de Universo")+ "', "+0+ ")");
+            database.commit();
+            database.desconectar();
+            llenarListas();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,13 +306,17 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cb_universos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> jl_elements;
     private javax.swing.JList<String> jl_seres;
+    private javax.swing.JMenuBar menuPrincipal;
+    private javax.swing.JMenuItem mi_cSeres;
+    private javax.swing.JMenuItem mi_dUniversos;
+    private javax.swing.JMenu mi_seres;
+    private javax.swing.JMenu mi_universos;
+    private javax.swing.JProgressBar pb_cargar;
+    private javax.swing.JPanel pn_principal;
     // End of variables declaration//GEN-END:variables
 }

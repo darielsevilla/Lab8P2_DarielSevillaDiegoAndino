@@ -16,6 +16,11 @@ public class Universo {
         this.CantSeres = CantSeres;
     }
 
+    public Universo(String Nombre) {
+        this.Nombre = Nombre;
+    }
+
+    
     public String getNombre() {
         return Nombre;
     }
