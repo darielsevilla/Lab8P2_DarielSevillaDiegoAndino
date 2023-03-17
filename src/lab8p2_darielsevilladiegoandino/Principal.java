@@ -48,15 +48,19 @@ public class Principal extends javax.swing.JFrame {
 
             for (Universo universo : universos) {
 
-                database.query.execute("SELECT * FROM seres a, universos b WHERE (a.id = b.id and b.id =" + universo.getId() + ")");
+                database.query.execute("SELECT * FROM seres a, universos b WHERE (a.universo = b.id and b.id =" + universo.getId() + ")");
+                
                 rs = database.query.getResultSet();
+                
                 while (rs.next()) {
                     boolean bool = true;
-                    while (!rs.getString(5).equals("humano")) {
+                    if(!rs.getString(5).equals("humano")) {
                         bool = false;
                     }
                     universo.getRegistrado().add(new Seres(rs.getString(6), rs.getInt(2), rs.getInt(1), rs.getInt(2), universo, bool));
                 }
+                
+                
             }
 
             database.desconectar();
@@ -81,7 +85,7 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
-        jFrame1 = new javax.swing.JFrame();
+        wd_crud = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -116,56 +120,42 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu1.setText("jMenu1");
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         jLabel2.setFont(new java.awt.Font("Burbank Big Cd Bd", 0, 48)); // NOI18N
         jLabel2.setText("CRUD");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jLabel3.setText("Nombre");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
 
         jLabel4.setText("ID");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
 
         jLabel5.setText("Poder");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, -1, -1));
 
         jLabel6.setText("Años");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
 
         jLabel7.setText("Universo");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
 
         jLabel8.setText("Raza");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, -1, -1));
 
         jTF_Nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTF_NombreActionPerformed(evt);
             }
         });
-        jPanel1.add(jTF_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 430, -1));
 
         jTF_ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTF_IDActionPerformed(evt);
             }
         });
-        jPanel1.add(jTF_ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 430, -1));
 
         jTF_Años.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTF_AñosActionPerformed(evt);
             }
         });
-        jPanel1.add(jTF_Años, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 430, -1));
 
         jCB_Raza.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Humano", "Amanto" }));
-        jPanel1.add(jCB_Raza, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 430, -1));
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
-        jPanel1.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 430, -1));
 
         jB_Agregar.setText("Agregar");
         jB_Agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -173,20 +163,92 @@ public class Principal extends javax.swing.JFrame {
                 jB_AgregarActionPerformed(evt);
             }
         });
-        jPanel1.add(jB_Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 80, -1));
 
         jCB_Universo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jCB_Universo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 430, -1));
 
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel2))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jLabel3)
+                .addGap(16, 16, 16)
+                .addComponent(jTF_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(jLabel4)
+                .addGap(19, 19, 19)
+                .addComponent(jTF_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(jLabel5)
+                .addGap(19, 19, 19)
+                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(jLabel6)
+                .addGap(23, 23, 23)
+                .addComponent(jTF_Años, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(jLabel7)
+                .addGap(14, 14, 14)
+                .addComponent(jCB_Universo, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(jLabel8)
+                .addGap(26, 26, 26)
+                .addComponent(jCB_Raza, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(jB_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel2)
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jTF_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jTF_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jTF_Años, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jCB_Universo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jCB_Raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addComponent(jB_Agregar))
+        );
+
+        javax.swing.GroupLayout wd_crudLayout = new javax.swing.GroupLayout(wd_crud.getContentPane());
+        wd_crud.getContentPane().setLayout(wd_crudLayout);
+        wd_crudLayout.setHorizontalGroup(
+            wd_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        wd_crudLayout.setVerticalGroup(
+            wd_crudLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -281,6 +343,11 @@ public class Principal extends javax.swing.JFrame {
         mi_seres.setText("seres");
 
         mi_cSeres.setText("create");
+        mi_cSeres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_cSeresActionPerformed(evt);
+            }
+        });
         mi_seres.add(mi_cSeres);
 
         menuPrincipal.add(mi_seres);
@@ -317,11 +384,15 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_cargarUniversoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cargarUniversoMouseClicked
+    
         Universo u = (Universo) cb_universos.getSelectedItem();
+       
         DefaultListModel modelo = (DefaultListModel) jl_elements.getModel();
+      
         modelo.removeAllElements();
-        modelo.addElement(u);
+        modelo.addElement(u.toString2());
         modelo = (DefaultListModel) jl_seres.getModel();
+        modelo.removeAllElements();
         ProgressBar barra = new ProgressBar(pb_cargar, u, modelo);
         barra.start();
 
@@ -371,22 +442,45 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTF_AñosActionPerformed
 
     private void jB_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AgregarActionPerformed
-        //Agregar
-        String Nombre =jTF_Nombre.getText();
-        int ID = jTF_ID.getHeight();
-        int Poder = jSpinner1.getHeight();
-        int Años = jTF_Años.getHeight();
-        Universo Universo = (Universo) jCB_Universo.getSelectedItem();
-        boolean Raza;
-        if(jCB_Universo.getSelectedItem() == "Humano"){
-            Raza = true;
-        }else{
-            Raza = false;
+        try {
+            //Agregar
+            String Nombre =jTF_Nombre.getText();
+            int ID = jTF_ID.getHeight();
+            int Poder = jSpinner1.getHeight();
+            int Años = jTF_Años.getHeight();
+            Universo Universo = (Universo) jCB_Universo.getSelectedItem();
+            boolean Raza;
+            if(jCB_Universo.getSelectedItem() == "Humano"){
+                Raza = true;
+            }else{
+                Raza = false;
+            }
+            String race = "";
+            if(Raza == true){
+                race = "humano";
+            }else{
+                race = "amanto";
+            }
+            database.conectar();
+            database.query.execute("INSERT INTO seres VALUES ('" + ID + "','"+ Poder +  "','"+ Años + "','" + Universo.getId() + "','" + race + "','" + Nombre +"')");
+            database.query.execute("Update universos SET cantidad = " + (Universo.getCantSeres() + 1) + " WHERE id = " + Universo.getId());
+            llenarListas();
+            database.desconectar();
+            wd_crud.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Seres ser = new Seres(Nombre, ID, Poder, Años, Universo, Raza);
-        lista.add(ser);
 
     }//GEN-LAST:event_jB_AgregarActionPerformed
+
+    private void mi_cSeresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_cSeresActionPerformed
+        wd_crud.pack();
+        wd_crud.setLocationRelativeTo(this);
+        wd_crud.setVisible(true);
+        jCB_Universo.setModel((DefaultComboBoxModel) cb_universos.getModel());
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mi_cSeresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -431,7 +525,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jB_Agregar;
     private javax.swing.JComboBox<String> jCB_Raza;
     private javax.swing.JComboBox<String> jCB_Universo;
-    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -458,5 +551,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu mi_universos;
     private javax.swing.JProgressBar pb_cargar;
     private javax.swing.JPanel pn_principal;
+    private javax.swing.JFrame wd_crud;
     // End of variables declaration//GEN-END:variables
 }

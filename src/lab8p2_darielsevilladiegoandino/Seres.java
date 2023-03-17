@@ -82,7 +82,7 @@ public class Seres {
         }else{
             temp = "amanto";
         }
-        return  "Nombre->" + Nombre + "\nID=" + ID + "\nPoder->" + Poder + "\nyears->" + Años + "\nraza->" + temp;
+        return  "<html>Nombre->" + Nombre + "<br>ID=" + ID + "<br>Poder->" + Poder + "<br>years->" + Años + "<br>raza->" + temp + "</html>";
     }
     
     

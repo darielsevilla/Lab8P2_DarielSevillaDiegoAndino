@@ -65,6 +65,6 @@ public class Universo {
     }
     
     public String toString2(){
-        return "Universo" + "Nombre->" + Nombre + "\nCantidad de seres ->" + CantSeres;
+        return "<html>" + "Nombre->" + Nombre + "<br>Cantidad de seres ->" + CantSeres + "</html>";
     }
 }
