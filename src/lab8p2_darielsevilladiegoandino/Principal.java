@@ -81,6 +81,22 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        jFrame1 = new javax.swing.JFrame();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTF_Nombre = new javax.swing.JTextField();
+        jTF_ID = new javax.swing.JTextField();
+        jTF_Años = new javax.swing.JTextField();
+        jCB_Raza = new javax.swing.JComboBox<>();
+        jSpinner1 = new javax.swing.JSpinner();
+        jB_Agregar = new javax.swing.JButton();
+        jCB_Universo = new javax.swing.JComboBox<>();
         pn_principal = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bt_modificar = new javax.swing.JButton();
@@ -99,6 +115,79 @@ public class Principal extends javax.swing.JFrame {
         mi_dUniversos = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Burbank Big Cd Bd", 0, 48)); // NOI18N
+        jLabel2.setText("CRUD");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        jLabel3.setText("Nombre");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
+
+        jLabel4.setText("ID");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
+
+        jLabel5.setText("Poder");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, -1, -1));
+
+        jLabel6.setText("Años");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
+
+        jLabel7.setText("Universo");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
+
+        jLabel8.setText("Raza");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, -1, -1));
+
+        jTF_Nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTF_NombreActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTF_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 430, -1));
+
+        jTF_ID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTF_IDActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTF_ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 430, -1));
+
+        jTF_Años.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTF_AñosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTF_Años, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 430, -1));
+
+        jCB_Raza.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Humano", "Amanto" }));
+        jPanel1.add(jCB_Raza, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 430, -1));
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        jPanel1.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 430, -1));
+
+        jB_Agregar.setText("Agregar");
+        jB_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AgregarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jB_Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 80, -1));
+
+        jCB_Universo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(jCB_Universo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 430, -1));
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -269,6 +358,36 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jTF_NombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF_NombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTF_NombreActionPerformed
+
+    private void jTF_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF_IDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTF_IDActionPerformed
+
+    private void jTF_AñosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF_AñosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTF_AñosActionPerformed
+
+    private void jB_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AgregarActionPerformed
+        //Agregar
+        String Nombre =jTF_Nombre.getText();
+        int ID = jTF_ID.getHeight();
+        int Poder = jSpinner1.getHeight();
+        int Años = jTF_Años.getHeight();
+        Universo Universo = (Universo) jCB_Universo.getSelectedItem();
+        boolean Raza;
+        if(jCB_Universo.getSelectedItem() == "Humano"){
+            Raza = true;
+        }else{
+            Raza = false;
+        }
+        Seres ser = new Seres(Nombre, ID, Poder, Años, Universo, Raza);
+        lista.add(ser);
+
+    }//GEN-LAST:event_jB_AgregarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -303,16 +422,33 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cargarUniverso;
     private javax.swing.JButton bt_modificar;
     private javax.swing.JComboBox<String> cb_universos;
+    private javax.swing.JButton jB_Agregar;
+    private javax.swing.JComboBox<String> jCB_Raza;
+    private javax.swing.JComboBox<String> jCB_Universo;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTextField jTF_Años;
+    private javax.swing.JTextField jTF_ID;
+    private javax.swing.JTextField jTF_Nombre;
     private javax.swing.JList<String> jl_elements;
     private javax.swing.JList<String> jl_seres;
     private javax.swing.JMenuBar menuPrincipal;
