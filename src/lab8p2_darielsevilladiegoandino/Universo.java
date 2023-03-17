@@ -8,6 +8,9 @@ public class Universo {
     private int CantSeres;
     private ArrayList<Seres> Registrado = new ArrayList();
 
+    public Universo() {
+    }
+
     public Universo(String Nombre, int CantSeres) {
         this.Nombre = Nombre;
         this.CantSeres = CantSeres;
@@ -39,7 +42,7 @@ public class Universo {
 
     @Override
     public String toString() {
-        return "Universo{" + "Nombre=" + Nombre + ", CantSeres=" + CantSeres + ", registrado=" + Registrado + '}';
+        return "Universo" + "Nombre->" + Nombre + "\nCantidad de seres ->" + CantSeres;
     }
     
     

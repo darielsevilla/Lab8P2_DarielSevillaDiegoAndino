@@ -7,9 +7,9 @@ public class Seres {
     private int Poder;
     private int Años;
     private Universo Universo;
-    private String Humano;
+    private boolean Humano;
 
-    public Seres(String Nombre, int ID, int Poder, int Años, Universo Universo, String Humano) {
+    public Seres(String Nombre, int ID, int Poder, int Años, Universo Universo, boolean Humano) {
         this.Nombre = Nombre;
         this.ID = ID;
         this.Poder = Poder;
@@ -61,17 +61,23 @@ public class Seres {
         this.Universo = Universo;
     }
 
-    public String getHumano() {
+    public boolean getHumano() {
         return Humano;
     }
 
-    public void setHumano(String Humano) {
+    public void setHumano(boolean Humano) {
         this.Humano = Humano;
     }
 
     @Override
     public String toString() {
-        return "Seres{" + "Nombre=" + Nombre + ", ID=" + ID + ", Poder=" + Poder + ", A\u00f1os=" + Años + ", Universo=" + Universo + ", Humano=" + Humano + '}';
+        String temp = "";
+        if(Humano){
+            temp = "humano";
+        }else{
+            temp = "amanto";
+        }
+        return  "Nombre->" + Nombre + "\nID=" + ID + "\nPoder->" + Poder + "\nyears->" + Años + "\nraza->" + temp;
     }
     
     

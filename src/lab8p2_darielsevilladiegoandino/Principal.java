@@ -4,6 +4,8 @@
  */
 package lab8p2_darielsevilladiegoandino;
 
+
+
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
@@ -15,16 +17,22 @@ import javax.swing.DefaultListModel;
  */
 public class Principal extends javax.swing.JFrame {
 
-    private ArrayList<Universo> universos;
-    private ArrayList<Seres> seresVivos;
+    private ArrayList<Universo> universos = new ArrayList();
+    private ArrayList<Seres> seresVivos = new ArrayList();
     private Dba database;
 
     public Principal() {
         initComponents();
-        database = new Dba("./gintama.mdb");
+        llenarListas();
+    }
+
+    public void llenarListas(){
+        universos.clear();
+        seresVivos.clear();
+        database = new Dba("./gintama.accdb");
         database.conectar();
         try {
-            database.query.execute("SELECT FROM universos");
+            database.query.execute("SELECT * FROM universos");
             ResultSet rs = database.query.getResultSet();
 
             while (rs.next()) {
@@ -34,22 +42,33 @@ public class Principal extends javax.swing.JFrame {
             
         
             
-            database.query.execute("SELECT FROM seres");
+            database.query.execute("SELECT * FROM seres");
             rs = database.query.getResultSet();
+         
             
             while(rs.next()){
-                seresVivos.add(new Seres(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6)));
+                Universo actual = new Universo();
+                for (Universo universo : universos) {
+                    if(rs.getString(5).equals(universo.getNombre())){
+                        actual = universo;
+                    }
+                }
+                boolean bool = true;
+                if(!rs.getString(6).equals("humano")){
+                    bool = false;
+                }
+                seresVivos.add(new Seres(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), actual, bool));
             }
             
             for (Universo u : universos) {
                 for (Seres s : seresVivos) {
-                    if(s.getUniverso().equals(u.getNombre())){
+                    if(s.getUniverso().equals(u)){
                         u.getRegistrado().add(s);
                     }
                 }
             }
             
-            
+            database.desconectar();
             DefaultComboBoxModel modeloUniversos = (DefaultComboBoxModel)cb_universos.getModel();
             modeloUniversos.removeAllElements();
             for (Universo u : universos) {
@@ -57,10 +76,11 @@ public class Principal extends javax.swing.JFrame {
             }
             
         } catch (Exception e) {
-            System.out.println("EXCEPTION");
+            e.printStackTrace();
         }
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,30 +109,24 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 255, 204));
         jLabel1.setText("Control de Amantos");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         bt_modificar.setBackground(new java.awt.Color(102, 255, 204));
         bt_modificar.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar.setText("Modificar universo");
         bt_modificar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(bt_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 118, 52));
 
         jl_elements.setBackground(new java.awt.Color(255, 255, 255));
         jl_elements.setForeground(new java.awt.Color(0, 0, 0));
         jl_elements.setModel(new DefaultListModel());
         jScrollPane1.setViewportView(jl_elements);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 130, 300));
-
         cb_universos.setBackground(new java.awt.Color(255, 255, 255));
         cb_universos.setForeground(new java.awt.Color(0, 0, 0));
         cb_universos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(cb_universos, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 200, -1));
 
         bt_cargarUniverso.setBackground(new java.awt.Color(102, 255, 204));
         bt_cargarUniverso.setForeground(new java.awt.Color(255, 255, 255));
@@ -123,14 +137,56 @@ public class Principal extends javax.swing.JFrame {
                 bt_cargarUniversoMouseClicked(evt);
             }
         });
-        jPanel1.add(bt_cargarUniverso, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 118, 52));
 
         jl_seres.setBackground(new java.awt.Color(255, 255, 255));
         jl_seres.setForeground(new java.awt.Color(0, 0, 0));
         jl_seres.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(jl_seres);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, 130, 300));
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cb_universos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bt_cargarUniverso, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bt_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(77, 77, 77)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(bt_cargarUniverso, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(bt_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(58, 58, 58)
+                                .addComponent(cb_universos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(111, Short.MAX_VALUE))
+        );
 
         jMenu2.setText("File");
         jMenuBar1.add(jMenu2);
@@ -144,18 +200,25 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_cargarUniversoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cargarUniversoMouseClicked
-      
+            Universo u =(Universo) cb_universos.getSelectedItem();
+            DefaultListModel modelo = (DefaultListModel) jl_elements.getModel();
+            modelo.removeAllElements();
+            modelo.addElement(u);
+            modelo = (DefaultListModel)jl_seres.getModel();
+            for (Seres s : u.getRegistrado()) {
+            modelo.addElement(s);
+        }
     }//GEN-LAST:event_bt_cargarUniversoMouseClicked
 
     /**
