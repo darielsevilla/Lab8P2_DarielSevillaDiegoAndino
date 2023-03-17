@@ -30,18 +30,24 @@ public class ProgressBar extends Thread{
     }
 
     public void run(){
-       barra.setMaximum(uni.getRegistrado().size());
-        for (Seres s : uni.getRegistrado()) {
-           try {
-               barra.setValue(barra.getValue() + 1);
-               modelo.addElement(s);
-               Thread.sleep(1000);
-               
-           } catch (InterruptedException ex) {
-               Logger.getLogger(ProgressBar.class.getName()).log(Level.SEVERE, null, ex);
-           } 
+        try {
+            barra.setMaximum(uni.getRegistrado().size());
+            
+            for (Seres s : uni.getRegistrado()) {
+                try {
+                    barra.setValue(barra.getValue() + 1);
+                    modelo.addElement(s);
+                    Thread.sleep(1000);
+                    
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ProgressBar.class.getName()).log(Level.SEVERE, null, ex); 
+                }
+            }
+            Thread.sleep(3000);
+            barra.setValue(0);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ProgressBar.class.getName()).log(Level.SEVERE, null, ex);
         }
-{
            
        }
     }
