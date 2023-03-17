@@ -1,4 +1,4 @@
-package clase20200623;
+package lab8p2_darielsevilladiegoandino;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -4,17 +4,61 @@
  */
 package lab8p2_darielsevilladiegoandino;
 
+import java.util.ArrayList;
+import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author HP
  */
 public class Principal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Principal
-     */
+    private ArrayList<Universo> universos;
+    private ArrayList<Seres> seresVivos;
+    private Dba database;
+
     public Principal() {
         initComponents();
+        database = new Dba("./gintama.mdb");
+        database.conectar();
+        try {
+            database.query.execute("SELECT FROM universos");
+            ResultSet rs = database.query.getResultSet();
+
+            while (rs.next()) {
+                universos.add(new Universo(rs.getString(1), rs.getInt(2)));
+
+            }
+            
+        
+            
+            database.query.execute("SELECT FROM seres");
+            rs = database.query.getResultSet();
+            
+            while(rs.next()){
+                seresVivos.add(new Seres(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6)));
+            }
+            
+            for (Universo u : universos) {
+                for (Seres s : seresVivos) {
+                    if(s.getUniverso().equals(u.getNombre())){
+                        u.getRegistrado().add(s);
+                    }
+                }
+            }
+            
+            
+            DefaultComboBoxModel modeloUniversos = (DefaultComboBoxModel)cb_universos.getModel();
+            modeloUniversos.removeAllElements();
+            for (Universo u : universos) {
+                modeloUniversos.addElement(u);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("EXCEPTION");
+        }
     }
 
     /**
@@ -26,21 +70,93 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        bt_modificar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jl_elements = new javax.swing.JList<>();
+        cb_universos = new javax.swing.JComboBox<>();
+        bt_cargarUniverso = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jl_seres = new javax.swing.JList<>();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+
+        jMenu1.setText("jMenu1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 255, 204));
+        jLabel1.setText("Control de Amantos");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        bt_modificar.setBackground(new java.awt.Color(102, 255, 204));
+        bt_modificar.setForeground(new java.awt.Color(255, 255, 255));
+        bt_modificar.setText("Modificar universo");
+        bt_modificar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(bt_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 118, 52));
+
+        jl_elements.setBackground(new java.awt.Color(255, 255, 255));
+        jl_elements.setForeground(new java.awt.Color(0, 0, 0));
+        jl_elements.setModel(new DefaultListModel());
+        jScrollPane1.setViewportView(jl_elements);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 130, 300));
+
+        cb_universos.setBackground(new java.awt.Color(255, 255, 255));
+        cb_universos.setForeground(new java.awt.Color(0, 0, 0));
+        cb_universos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(cb_universos, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 200, -1));
+
+        bt_cargarUniverso.setBackground(new java.awt.Color(102, 255, 204));
+        bt_cargarUniverso.setForeground(new java.awt.Color(255, 255, 255));
+        bt_cargarUniverso.setText("Cargar universo");
+        bt_cargarUniverso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bt_cargarUniverso.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_cargarUniversoMouseClicked(evt);
+            }
+        });
+        jPanel1.add(bt_cargarUniverso, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 118, 52));
+
+        jl_seres.setBackground(new java.awt.Color(255, 255, 255));
+        jl_seres.setForeground(new java.awt.Color(0, 0, 0));
+        jl_seres.setModel(new DefaultListModel());
+        jScrollPane2.setViewportView(jl_seres);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, 130, 300));
+
+        jMenu2.setText("File");
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Edit");
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bt_cargarUniversoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cargarUniversoMouseClicked
+      
+    }//GEN-LAST:event_bt_cargarUniversoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -78,5 +194,18 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_cargarUniverso;
+    private javax.swing.JButton bt_modificar;
+    private javax.swing.JComboBox<String> cb_universos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> jl_elements;
+    private javax.swing.JList<String> jl_seres;
     // End of variables declaration//GEN-END:variables
 }
