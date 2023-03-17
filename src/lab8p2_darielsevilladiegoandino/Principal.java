@@ -445,9 +445,9 @@ public class Principal extends javax.swing.JFrame {
         try {
             //Agregar
             String Nombre =jTF_Nombre.getText();
-            int ID = jTF_ID.getHeight();
-            int Poder = jSpinner1.getHeight();
-            int Años = jTF_Años.getHeight();
+            int ID = Integer.parseInt(jTF_ID.getText());
+            int Poder =(int)jSpinner1.getValue();
+            int Años = Integer.parseInt(jTF_Años.getText());
             Universo Universo = (Universo) jCB_Universo.getSelectedItem();
             boolean Raza;
             if(jCB_Universo.getSelectedItem() == "Humano"){
@@ -461,12 +461,24 @@ public class Principal extends javax.swing.JFrame {
             }else{
                 race = "amanto";
             }
+            int cont = 0;
+            for (Universo universo : universos) {
+                for (Seres s : universo.getRegistrado()) {
+                    if(s.getID() == ID){
+                        cont++;
+                    }
+                }
+            }
+            if(cont == 0){
             database.conectar();
             database.query.execute("INSERT INTO seres VALUES ('" + ID + "','"+ Poder +  "','"+ Años + "','" + Universo.getId() + "','" + race + "','" + Nombre +"')");
             database.query.execute("Update universos SET cantidad = " + (Universo.getCantSeres() + 1) + " WHERE id = " + Universo.getId());
             llenarListas();
             database.desconectar();
             wd_crud.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "id repetido");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
