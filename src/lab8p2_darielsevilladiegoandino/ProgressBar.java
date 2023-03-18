@@ -50,10 +50,14 @@ public class ProgressBar extends Thread{
         }
            
        }
-    }
+
     @Override
     public String toString() {
-        return " barra ->"+ barra;
+        return "barra";
     }
     
-}
+    
+    }
+    
+    
+

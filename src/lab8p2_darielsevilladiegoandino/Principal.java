@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -31,7 +32,10 @@ public class Principal extends javax.swing.JFrame {
 
     public void llenarListas() {
         universos.clear();
-
+        DefaultListModel  mod= (DefaultListModel) jl_elements.getModel();
+        mod.removeAllElements();
+        mod = (DefaultListModel) jl_seres.getModel();
+        mod.removeAllElements();
         database = new Dba("./gintama.accdb");
         database.conectar();
         try {
@@ -49,18 +53,17 @@ public class Principal extends javax.swing.JFrame {
             for (Universo universo : universos) {
 
                 database.query.execute("SELECT * FROM seres a, universos b WHERE (a.universo = b.id and b.id =" + universo.getId() + ")");
-                
+
                 rs = database.query.getResultSet();
-                
+
                 while (rs.next()) {
                     boolean bool = true;
-                    if(!rs.getString(5).equals("humano")) {
+                    if (!rs.getString(5).equals("humano") && !rs.getString(5).equals("Humano")) {
                         bool = false;
                     }
-                    universo.getRegistrado().add(new Seres(rs.getString(6), rs.getInt(2), rs.getInt(1), rs.getInt(2), universo, bool));
+                    universo.getRegistrado().add(new Seres(rs.getString(6), rs.getInt(1), rs.getInt(2), rs.getInt(3), universo, bool));
                 }
-                
-                
+
             }
 
             database.desconectar();
@@ -101,15 +104,17 @@ public class Principal extends javax.swing.JFrame {
         jSpinner1 = new javax.swing.JSpinner();
         jB_Agregar = new javax.swing.JButton();
         jCB_Universo = new javax.swing.JComboBox<>();
-        jD_Eliminar = new javax.swing.JDialog();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jT_Tabla = new javax.swing.JTable();
-        jB_Eliminar = new javax.swing.JButton();
         pop_crud = new javax.swing.JPopupMenu();
         mi_modify = new javax.swing.JMenuItem();
         mi_delete = new javax.swing.JMenuItem();
+        jd_busqueda = new javax.swing.JDialog();
+        pn_busqueda = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        tf_nombre = new javax.swing.JTextField();
+        tf_id = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         pn_principal = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         bt_modificar = new javax.swing.JButton();
@@ -126,6 +131,8 @@ public class Principal extends javax.swing.JFrame {
         mi_cSeres = new javax.swing.JMenuItem();
         mi_universos = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        mi_busqueda = new javax.swing.JMenu();
+        mi_buscar = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -167,6 +174,11 @@ public class Principal extends javax.swing.JFrame {
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
         jB_Agregar.setText("Agregar");
+        jB_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jB_AgregarMouseClicked(evt);
+            }
+        });
         jB_Agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_AgregarActionPerformed(evt);
@@ -260,74 +272,100 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jLabel9.setFont(new java.awt.Font("Burbank Big Cd Bd", 0, 36)); // NOI18N
-        jLabel9.setText("Eliminar");
-
-        jT_Tabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "ID", "Poder", "Años", "Universo", "Raza"
-            }
-        ));
-        jScrollPane3.setViewportView(jT_Tabla);
-
-        jB_Eliminar.setText("Eliminar");
-        jB_Eliminar.addActionListener(new java.awt.event.ActionListener() {
+        mi_modify.setText("modificar");
+        mi_modify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jB_EliminarActionPerformed(evt);
+                mi_modifyActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jB_Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(189, 189, 189))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(129, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jB_Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jD_EliminarLayout = new javax.swing.GroupLayout(jD_Eliminar.getContentPane());
-        jD_Eliminar.getContentPane().setLayout(jD_EliminarLayout);
-        jD_EliminarLayout.setHorizontalGroup(
-            jD_EliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jD_EliminarLayout.setVerticalGroup(
-            jD_EliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        mi_modify.setText("modificar");
         pop_crud.add(mi_modify);
 
         mi_delete.setText("borrar");
+        mi_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_deleteActionPerformed(evt);
+            }
+        });
         pop_crud.add(mi_delete);
+
+        pn_busqueda.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(102, 255, 204));
+        jLabel9.setText("Busqueda");
+
+        jLabel10.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("Nombre:");
+
+        jLabel11.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("id:");
+
+        tf_nombre.setBackground(new java.awt.Color(255, 255, 255));
+        tf_nombre.setForeground(new java.awt.Color(0, 0, 0));
+
+        tf_id.setBackground(new java.awt.Color(255, 255, 255));
+        tf_id.setForeground(new java.awt.Color(0, 0, 0));
+
+        jButton1.setText("Verificar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pn_busquedaLayout = new javax.swing.GroupLayout(pn_busqueda);
+        pn_busqueda.setLayout(pn_busquedaLayout);
+        pn_busquedaLayout.setHorizontalGroup(
+            pn_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_busquedaLayout.createSequentialGroup()
+                .addGroup(pn_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_busquedaLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(pn_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_id, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pn_busquedaLayout.createSequentialGroup()
+                        .addGap(201, 201, 201)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(107, Short.MAX_VALUE))
+        );
+        pn_busquedaLayout.setVerticalGroup(
+            pn_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_busquedaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addGap(43, 43, 43)
+                .addGroup(pn_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(tf_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
+                .addGroup(pn_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(tf_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jd_busquedaLayout = new javax.swing.GroupLayout(jd_busqueda.getContentPane());
+        jd_busqueda.getContentPane().setLayout(jd_busquedaLayout);
+        jd_busquedaLayout.setHorizontalGroup(
+            jd_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pn_busqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jd_busquedaLayout.setVerticalGroup(
+            jd_busquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pn_busqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -341,6 +379,11 @@ public class Principal extends javax.swing.JFrame {
         bt_modificar.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar.setText("Modificar universo");
         bt_modificar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bt_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_modificarMouseClicked(evt);
+            }
+        });
 
         jl_elements.setBackground(new java.awt.Color(255, 255, 255));
         jl_elements.setForeground(new java.awt.Color(0, 0, 0));
@@ -364,6 +407,11 @@ public class Principal extends javax.swing.JFrame {
         jl_seres.setBackground(new java.awt.Color(255, 255, 255));
         jl_seres.setForeground(new java.awt.Color(0, 0, 0));
         jl_seres.setModel(new DefaultListModel());
+        jl_seres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_seresMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jl_seres);
 
         bt_eliminar.setBackground(new java.awt.Color(102, 255, 204));
@@ -454,6 +502,18 @@ public class Principal extends javax.swing.JFrame {
 
         menuPrincipal.add(mi_universos);
 
+        mi_busqueda.setText("Busqueda");
+
+        mi_buscar.setText("buscar");
+        mi_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_buscarActionPerformed(evt);
+            }
+        });
+        mi_busqueda.add(mi_buscar);
+
+        menuPrincipal.add(mi_busqueda);
+
         setJMenuBar(menuPrincipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -471,11 +531,11 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_cargarUniversoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cargarUniversoMouseClicked
-    
+
         Universo u = (Universo) cb_universos.getSelectedItem();
-       
+
         DefaultListModel modelo = (DefaultListModel) jl_elements.getModel();
-      
+
         modelo.removeAllElements();
         modelo.addElement(u.toString2());
         modelo = (DefaultListModel) jl_seres.getModel();
@@ -499,15 +559,15 @@ public class Principal extends javax.swing.JFrame {
                         cont++;
                     }
                 }
-                
-                if(cont == 0){
+
+                if (cont == 0) {
                     bool = false;
-                }else{
+                } else {
                     id = random.nextInt(10000);
                 }
             }
             database.conectar();
-            database.query.execute("INSERT INTO universos VALUES ('"+ id + "','"+ 0 + "','" + JOptionPane.showInputDialog("Ingrese Nombre de Universo") + "')");
+            database.query.execute("INSERT INTO universos VALUES ('" + id + "','" + 0 + "','" + JOptionPane.showInputDialog("Ingrese Nombre de Universo") + "')");
             database.commit();
             database.desconectar();
             llenarListas();
@@ -531,41 +591,74 @@ public class Principal extends javax.swing.JFrame {
     private void jB_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AgregarActionPerformed
         try {
             //Agregar
-            String Nombre =jTF_Nombre.getText();
-            int ID = Integer.parseInt(jTF_ID.getText());
-            int Poder =(int)jSpinner1.getValue();
+
+            String Nombre = jTF_Nombre.getText();
+            int ID = 0;
+            if (jTF_ID.isEnabled()) {
+                ID = Integer.parseInt(jTF_ID.getText());
+            }
+            int Poder = (int) jSpinner1.getValue();
             int Años = Integer.parseInt(jTF_Años.getText());
             Universo Universo = (Universo) jCB_Universo.getSelectedItem();
             boolean Raza;
-            if(jCB_Universo.getSelectedItem() == "Humano"){
+            if (jCB_Universo.getSelectedItem() == "Humano") {
                 Raza = true;
-            }else{
+            } else {
                 Raza = false;
             }
             String race = "";
-            if(Raza == true){
+            if (Raza == true) {
                 race = "humano";
-            }else{
+            } else {
                 race = "amanto";
             }
             int cont = 0;
             for (Universo universo : universos) {
                 for (Seres s : universo.getRegistrado()) {
-                    if(s.getID() == ID){
+                    if (s.getID() == ID) {
+
                         cont++;
+                        if (actual != null) {
+                            if (s == actual) {
+                                cont--;
+                            }
+                        }
                     }
                 }
             }
-            if(cont == 0){
-            database.conectar();
-            database.query.execute("INSERT INTO seres VALUES ('" + ID + "','"+ Poder +  "','"+ Años + "','" + Universo.getId() + "','" + race + "','" + Nombre +"')");
-            database.query.execute("Update universos SET cantidad = " + (Universo.getCantSeres() + 1) + " WHERE id = " + Universo.getId());
-            llenarListas();
-            database.desconectar();
-            wd_crud.dispose();
-            }else{
+            if (cont == 0) {
+                if (actual == null) {
+                    database.conectar();
+                    database.query.execute("INSERT INTO seres VALUES ('" + ID + "','" + Poder + "','" + Años + "','" + Universo.getId() + "','" + race + "','" + Nombre + "')");
+                    database.query.execute("Update universos SET cantidad = " + (Universo.getCantSeres() + 1) + " WHERE id = " + Universo.getId());
+                    llenarListas();
+
+                    database.desconectar();
+                    wd_crud.dispose();
+                } else {
+
+                    database.conectar();
+                    database.query.execute("Update seres SET nombre = '" + Nombre + "', poder = " + Poder + ", years = " + Años + ", raza = '" + ((String) jCB_Raza.getSelectedItem()).toLowerCase() + "', universo = " + Universo.getId() + " WHERE id = " + actual.getID());
+                    database.commit();
+                    database.desconectar();
+                    
+                    jTF_ID.setEnabled(true);
+                    if(Universo.getId() != actual.getUniverso().getId()){
+                        database.conectar();
+                        database.query.execute("Update universos SET cantidad = " + (Universo.getCantSeres()+1) + " WHERE id = " + Universo.getId());
+                        database.commit();
+                        database.query.execute("Update universos SET cantidad = " + (actual.getUniverso().getCantSeres()-1) + " WHERE id = " + actual.getUniverso().getId());
+                        database.commit();
+                        database.desconectar();
+                    }
+                    actual = null;
+                    llenarListas();
+                    wd_crud.dispose();
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "id repetido");
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -573,6 +666,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jB_AgregarActionPerformed
 
     private void mi_cSeresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_cSeresActionPerformed
+        if(universos.size() > 0){
         wd_crud.pack();
         jTF_Nombre.setText("");
         jTF_Años.setText("");
@@ -580,21 +674,17 @@ public class Principal extends javax.swing.JFrame {
         wd_crud.setLocationRelativeTo(this);
         wd_crud.setVisible(true);
         jCB_Universo.setModel((DefaultComboBoxModel) cb_universos.getModel());
-        
+        }else{
+            JOptionPane.showMessageDialog(this, "No hay universos");
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_mi_cSeresActionPerformed
-
-    private void jB_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EliminarActionPerformed
-        //Eliminar
-        int fila = jT_Tabla.getSelectedRow();
-        
-    }//GEN-LAST:event_jB_EliminarActionPerformed
 
     private void bt_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_eliminarMouseClicked
         try {
             Universo universe = (Universo) cb_universos.getSelectedItem();
             database.conectar();
-            database.query.execute("DELETE * FROM universos WHERE (id = "+ universe.getId() + ")");
+            database.query.execute("DELETE * FROM universos WHERE (id = " + universe.getId() + ")");
             database.commit();
             database.query.execute("DELETE * FROM seres WHERE (universo = " + universe.getId() + ")");
             database.commit();
@@ -604,6 +694,91 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_eliminarMouseClicked
+
+    private void jl_seresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_seresMouseClicked
+        if (jl_seres.getSelectedIndex() != -1 && SwingUtilities.isRightMouseButton(evt)) {
+            actual = (Seres) ((DefaultListModel) jl_seres.getModel()).getElementAt(jl_seres.getSelectedIndex());
+            jTF_Nombre.setText(actual.getNombre());
+            jTF_Años.setText(Integer.toString(actual.getAños()));
+            jSpinner1.setValue(actual.getPoder());
+            pop_crud.show(jl_seres, evt.getX(), evt.getY());
+
+        }
+    }//GEN-LAST:event_jl_seresMouseClicked
+
+    private void jB_AgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jB_AgregarMouseClicked
+
+    }//GEN-LAST:event_jB_AgregarMouseClicked
+
+    private void mi_modifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_modifyActionPerformed
+        wd_crud.pack();
+        jCB_Universo.setModel((DefaultComboBoxModel) cb_universos.getModel());
+        wd_crud.setLocationRelativeTo(this);
+        jTF_ID.setEnabled(false);
+        wd_crud.setVisible(true);
+    }//GEN-LAST:event_mi_modifyActionPerformed
+
+    private void mi_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_deleteActionPerformed
+        try {
+            DefaultListModel modelo = (DefaultListModel) jl_seres.getModel();
+            actual = (Seres) modelo.getElementAt(jl_seres.getSelectedIndex());
+
+            database.conectar();
+            database.query.execute("DELETE FROM seres WHERE id = " + actual.getID());
+            database.query.execute("UPDATE universos set cantidad = " + actual.getUniverso().getCantSeres() + 1 + " WHERE id = " + actual.getUniverso().getCantSeres());
+            database.commit();
+            database.desconectar();
+            llenarListas();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_mi_deleteActionPerformed
+
+    private void bt_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_modificarMouseClicked
+        try {
+            Universo universo = (Universo) cb_universos.getSelectedItem();
+
+            database.conectar();
+            database.query.execute("UPDATE universos SET universo = '" + JOptionPane.showInputDialog(this, "Ingrese nuevo nombre") + "' WHERE id =" + universo.getId());
+            database.commit();
+            database.desconectar();
+            llenarListas();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_modificarMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        try{
+            String name = tf_nombre.getText();
+            int id = Integer.parseInt(tf_id.getText());
+            int cont = 0;
+            for (Universo universo : universos) {
+                for (Seres s : universo.getRegistrado()) {
+                    if(s.getNombre().equals(name) && id == s.getID()){
+                        cont++;
+                        break;
+                    }
+                }
+            }
+            
+            if(cont > 0){
+                JOptionPane.showMessageDialog(jd_busqueda, "Este usuario si esta registrado");
+            }else{
+                JOptionPane.showMessageDialog(jd_busqueda, "Este usuario no esta registrado");
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(jd_busqueda, "Ingrese valores validos");
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void mi_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_buscarActionPerformed
+        jd_busqueda.pack();
+        jd_busqueda.setLocationRelativeTo(null);
+        jd_busqueda.setVisible(true);
+       
+    }//GEN-LAST:event_mi_buscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -639,7 +814,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cargarUniverso;
@@ -647,11 +822,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_modificar;
     private javax.swing.JComboBox<String> cb_universos;
     private javax.swing.JButton jB_Agregar;
-    private javax.swing.JButton jB_Eliminar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jCB_Raza;
     private javax.swing.JComboBox<String> jCB_Universo;
-    private javax.swing.JDialog jD_Eliminar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -663,26 +839,29 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField jTF_Años;
     private javax.swing.JTextField jTF_ID;
     private javax.swing.JTextField jTF_Nombre;
-    private javax.swing.JTable jT_Tabla;
+    private javax.swing.JDialog jd_busqueda;
     private javax.swing.JList<String> jl_elements;
     private javax.swing.JList<String> jl_seres;
     private javax.swing.JMenuBar menuPrincipal;
+    private javax.swing.JMenuItem mi_buscar;
+    private javax.swing.JMenu mi_busqueda;
     private javax.swing.JMenuItem mi_cSeres;
     private javax.swing.JMenuItem mi_delete;
     private javax.swing.JMenuItem mi_modify;
     private javax.swing.JMenu mi_seres;
     private javax.swing.JMenu mi_universos;
     private javax.swing.JProgressBar pb_cargar;
+    private javax.swing.JPanel pn_busqueda;
     private javax.swing.JPanel pn_principal;
     private javax.swing.JPopupMenu pop_crud;
+    private javax.swing.JTextField tf_id;
+    private javax.swing.JTextField tf_nombre;
     private javax.swing.JFrame wd_crud;
     // End of variables declaration//GEN-END:variables
 }
