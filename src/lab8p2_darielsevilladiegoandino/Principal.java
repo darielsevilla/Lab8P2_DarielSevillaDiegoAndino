@@ -136,7 +136,10 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu1.setText("jMenu1");
 
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+
         jLabel2.setFont(new java.awt.Font("Burbank Big Cd Bd", 0, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 102, 255));
         jLabel2.setText("CRUD");
 
         jLabel3.setText("Nombre");
@@ -173,6 +176,7 @@ public class Principal extends javax.swing.JFrame {
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
+        jB_Agregar.setBackground(new java.awt.Color(51, 102, 255));
         jB_Agregar.setText("Agregar");
         jB_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -224,9 +228,10 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addGap(26, 26, 26)
                 .addComponent(jCB_Raza, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(320, 320, 320)
-                .addComponent(jB_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jB_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(236, 236, 236))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,8 +262,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jCB_Raza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addComponent(jB_Agregar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jB_Agregar)
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout wd_crudLayout = new javax.swing.GroupLayout(wd_crud.getContentPane());
@@ -291,7 +297,7 @@ public class Principal extends javax.swing.JFrame {
         pn_busqueda.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(102, 255, 204));
+        jLabel9.setForeground(new java.awt.Color(51, 102, 255));
         jLabel9.setText("Busqueda");
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
@@ -310,6 +316,8 @@ public class Principal extends javax.swing.JFrame {
         tf_id.setBackground(new java.awt.Color(255, 255, 255));
         tf_id.setForeground(new java.awt.Color(0, 0, 0));
 
+        jButton1.setBackground(new java.awt.Color(51, 102, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setText("Verificar");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -372,10 +380,10 @@ public class Principal extends javax.swing.JFrame {
         pn_principal.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 255, 204));
+        jLabel1.setForeground(new java.awt.Color(51, 102, 255));
         jLabel1.setText("Control de Amantos");
 
-        bt_modificar.setBackground(new java.awt.Color(102, 255, 204));
+        bt_modificar.setBackground(new java.awt.Color(51, 102, 255));
         bt_modificar.setForeground(new java.awt.Color(255, 255, 255));
         bt_modificar.setText("Modificar universo");
         bt_modificar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -394,13 +402,18 @@ public class Principal extends javax.swing.JFrame {
         cb_universos.setForeground(new java.awt.Color(0, 0, 0));
         cb_universos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        bt_cargarUniverso.setBackground(new java.awt.Color(102, 255, 204));
+        bt_cargarUniverso.setBackground(new java.awt.Color(51, 102, 255));
         bt_cargarUniverso.setForeground(new java.awt.Color(255, 255, 255));
         bt_cargarUniverso.setText("Cargar universo");
         bt_cargarUniverso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         bt_cargarUniverso.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_cargarUniversoMouseClicked(evt);
+            }
+        });
+        bt_cargarUniverso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_cargarUniversoActionPerformed(evt);
             }
         });
 
@@ -414,7 +427,10 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jl_seres);
 
-        bt_eliminar.setBackground(new java.awt.Color(102, 255, 204));
+        pb_cargar.setBackground(new java.awt.Color(51, 51, 51));
+        pb_cargar.setForeground(new java.awt.Color(51, 102, 255));
+
+        bt_eliminar.setBackground(new java.awt.Color(51, 102, 255));
         bt_eliminar.setForeground(new java.awt.Color(255, 255, 255));
         bt_eliminar.setText("Eliminar universo");
         bt_eliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -779,6 +795,10 @@ public class Principal extends javax.swing.JFrame {
         jd_busqueda.setVisible(true);
        
     }//GEN-LAST:event_mi_buscarActionPerformed
+
+    private void bt_cargarUniversoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cargarUniversoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_cargarUniversoActionPerformed
 
     /**
      * @param args the command line arguments
